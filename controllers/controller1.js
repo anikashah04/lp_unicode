@@ -30,7 +30,7 @@ exports.read= async(req,res)=>{
 exports.update= async(req,res)=>{
     try{
         const user= await User.findByIdAndUpdate(req.params.id,req.body,{new:true})
-        console.log(user)
+        //console.log(user)
         res.send(user).status(200)
     }catch(error){
         res.send(error).status(400)
