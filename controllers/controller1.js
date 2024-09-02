@@ -1,16 +1,75 @@
 
 const User= require('../models/model1')
+const nodemailer=require('nodemailer')
 
-//Create
+//Create-Signup
 
-exports.create= async(req,res)=>{
+exports.signup= async(req,res)=>{
+    
+    const user=new User(req.body)
+    console.log(req.body.email)
     try{
-        const user=new User(req.body)
         await user.save()
-        res.send(user).status(200)
+        const token=await user.generateAuthToken()
+        let mailTransporter= nodemailer.createTransport({
+            service:"gmail",
+            auth:{
+                user:process.env.EMAIL,
+                pass:process.env.PASSWORD
+            }
+        })
+        let details={
+            from:"anikaunicodetask@gmail.com",
+            to:req.body.email,
+            subject:"Sign Up",
+            text:"Successfully Signed In"
+        }
+        mailTransporter.sendMail(details, (error)=>{
+            if(error){
+                console.log(error)
+            }
+            else{
+                console.log('Email has been sent')
+            }
+        })
+        res.status(201).send({user,token})
     }
     catch(error){
-        res.send(error).status(400)
+        res.status(400).send(error)
+    }
+}
+
+//Login
+exports.login=async(req,res)=>{
+    try{
+        const user= await User.authenticate(req.body.email, req.body.password)
+        const token=await user.generateAuthToken()
+        let mailTransporter= nodemailer.createTransport({
+            service:"gmail",
+            auth:{
+                user:process.env.EMAIL,
+                pass:process.env.PASSWORD
+            }
+        })
+        let details={
+            from:"anikaunicodetask@gmail.com",
+            to:req.body.email,
+            subject:"Logged In",
+            text:"Successfully Logged In"
+        }
+        mailTransporter.sendMail(details, (error)=>{
+            if(error){
+                console.log(error)
+            }
+            else{
+                console.log('Email has been sent')
+            }
+        })
+        res.status(200).send({user: user,token})
+    }
+    catch(error)
+    {
+        res.status(400).send({error: error.message})
     }
 }
 
@@ -18,10 +77,9 @@ exports.create= async(req,res)=>{
 
 exports.read= async(req,res)=>{
     try{
-        const users=await User.find({})
-        res.send(users).status(200)
+        res.send(req.user)
     }catch(error){
-        res.status(500).send(error)
+        res.send(error)
     }
 }
 
@@ -29,11 +87,12 @@ exports.read= async(req,res)=>{
 
 exports.update= async(req,res)=>{
     try{
-        const user= await User.findByIdAndUpdate(req.params.id,req.body,{new:true})
-        //console.log(user)
-        res.send(user).status(200)
+        const user= await User.findByIdAndUpdate(req.user.id,req.body,{new:true})
+        res.status(200).send(user)
+        console.log(user)
+        //res.send(user).status(200)
     }catch(error){
-        res.send(error).status(400)
+        res.send(error)
     }
 }
 
@@ -41,9 +100,11 @@ exports.update= async(req,res)=>{
 
 exports.delete= async(req,res)=>{
     try{
-        const user= await User.findByIdAndDelete(req.params.id)
-        res.send(user).status(200)
+        await User.findByIdAndDelete(req.user._id)
+        res.status(200).send(req.user)
     }catch(error){
-        res.send(error).send(error)
+        res.status(500).send(error)
+        console.log(error)
     }
 }
+
