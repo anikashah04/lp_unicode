@@ -18,7 +18,7 @@ exports.signup= async(req,res)=>{
                 pass:process.env.PASSWORD
             }
         })
-        let details={
+        let details={git
             from:"anikaunicodetask@gmail.com",
             to:req.body.email,
             subject:"Sign Up",
