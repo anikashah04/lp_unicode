@@ -15,16 +15,8 @@ if(process.env.NODE_ENV == 'development'){
 app.use(express.json())
 app.use(route1)
 
-//connecting to database
-const MongoClient=require('mongodb').MongoClient
-mongoose.connect(process.env.MONGODB_URI,{
-    useNewUrlParser:true,
-    useUnifiedTopology: true
-}).then(()=>{
-    console.log('Connected to DATABASE')
-}).catch((error)=>{
-    console.log(error)
-})
+//connection to database
+require('./utilities/connection')
 
 
 app.listen(port, ()=>{
