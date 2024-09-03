@@ -1,7 +1,7 @@
-const mongoose=require('mongoose')
-const jwt=require('jsonwebtoken')
-const bcrypt=require('bcrypt')
-const validator=require('validator')
+import mongoose from 'mongoose'
+import jwt from 'jsonwebtoken'
+import bcrypt from'bcrypt'
+import validator from 'validator'
 
 
 const userSchema=new mongoose.Schema({
@@ -76,4 +76,4 @@ userSchema.statics.authenticate= async(email,password)=>{
 
 const User=new mongoose.model('User', userSchema)
 
-module.exports=User
+export default User

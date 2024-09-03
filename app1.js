@@ -1,8 +1,12 @@
-const express=require('express')
-const mongoose=require('mongoose')
-const route1=require('./routes/route1')
-const morgan=require('morgan')
-require('dotenv').config()
+import config from 'config'
+import dotenv from 'dotenv'
+dotenv.config()
+
+import express from 'express'
+import mongoose from 'mongoose'
+import route1 from './routes/route1.js'
+import morgan from 'morgan'
+
 
 const port= process.env.PORT || 3000
 const app=express()
@@ -16,7 +20,7 @@ app.use(express.json())
 app.use(route1)
 
 //connection to database
-require('./utilities/connection')
+import './utilities/connection.js'
 
 
 app.listen(port, ()=>{

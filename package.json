@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "config": "^3.3.12",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "fetch": "^1.1.0",
@@ -23,5 +24,6 @@
     "path": "^0.12.7",
     "resend": "^4.0.0",
     "validator": "^13.12.0"
-  }
+  },
+  "type": "module"
 }

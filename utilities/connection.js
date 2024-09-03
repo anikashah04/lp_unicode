@@ -1,8 +1,11 @@
 //connecting to database
 
-const mongoose=require('mongoose')
+import config from 'config'
+import dotenv from 'dotenv'
+dotenv.config()
+import mongoose from 'mongoose'
 
-const MongoClient=require('mongodb').MongoClient
+import {MongoClient} from 'mongodb'
 
 const connection=mongoose.connect(process.env.MONGODB_URI,{
     useNewUrlParser:true,
@@ -13,4 +16,4 @@ const connection=mongoose.connect(process.env.MONGODB_URI,{
     console.log(error)
 })
 
-module.exports=connection 
+export default connection 

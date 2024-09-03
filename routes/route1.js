@@ -1,7 +1,7 @@
-const express=require('express')
+import express from 'express'
 const router= new express.Router()
-const controller= require('../controllers/controller1')
-const authMiddleware = require('../middleware/authentication')
+import controller from '../controllers/controller1.js'
+import authMiddleware from '../middleware/authentication.js'
 
 //Create-Sign up
 
@@ -20,6 +20,6 @@ router.patch('/user/me', authMiddleware,controller.update)
 
 //Delete
 
-router.delete('/user/me',authMiddleware, controller.delete)
+router.delete('/user/me',authMiddleware, controller.deleteUser)
 
-module.exports=router
+export default router

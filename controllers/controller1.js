@@ -1,10 +1,10 @@
 
-const User= require('../models/model1')
-const nodemailer=require('nodemailer')
+import User from '../models/model1.js'
+import nodemailer from 'nodemailer'
 
 //Create-Signup
 
-exports.signup= async(req,res)=>{
+export const signup= async(req,res)=>{
     
     const user=new User(req.body)
     console.log(req.body.email)
@@ -40,7 +40,7 @@ exports.signup= async(req,res)=>{
 }
 
 //Login
-exports.login=async(req,res)=>{
+export const login=async(req,res)=>{
     try{
         const user= await User.authenticate(req.body.email, req.body.password)
         const token=await user.generateAuthToken()
@@ -75,7 +75,7 @@ exports.login=async(req,res)=>{
 
 //Read
 
-exports.read= async(req,res)=>{
+export const read= async(req,res)=>{
     try{
         res.send(req.user)
     }catch(error){
@@ -85,12 +85,10 @@ exports.read= async(req,res)=>{
 
 //Update
 
-exports.update= async(req,res)=>{
+export const update= async(req,res)=>{
     try{
         const user= await User.findByIdAndUpdate(req.user.id,req.body,{new:true})
         res.status(200).send(user)
-        console.log(user)
-        //res.send(user).status(200)
     }catch(error){
         res.send(error)
     }
@@ -98,7 +96,7 @@ exports.update= async(req,res)=>{
 
 //Delete
 
-exports.delete= async(req,res)=>{
+export const deleteUser= async(req,res)=>{
     try{
         await User.findByIdAndDelete(req.user._id)
         res.status(200).send(req.user)
@@ -108,3 +106,4 @@ exports.delete= async(req,res)=>{
     }
 }
 
+export default { signup, login, read, update, deleteUser}
