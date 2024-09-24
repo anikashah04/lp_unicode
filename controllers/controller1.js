@@ -2,6 +2,7 @@
 import User from '../models/model1.js'
 import nodemailer from 'nodemailer'
 
+
 //Create-Signup
 
 export const signup= async(req,res)=>{
@@ -106,4 +107,36 @@ export const deleteUser= async(req,res)=>{
     }
 }
 
-export default { signup, login, read, update, deleteUser}
+//Profile picture
+
+import cloudinary from '../utilities/cloudinaryConfig.js'
+const uploadpfp= async(req,res)=>{
+    try{
+        if(!req.file){
+            return res.status(400).status({message:'No file uploaded'})
+        }
+        const imgURL=req.file.path
+        req.user.avatar=req.file.path
+        await req.user.save()
+        res.status(200).send({url:imgURL})
+    }catch(error){
+        res.status(404).send(error)
+        console.log(error)
+    }
+}
+
+const updatepfp=async(req,res)=>{
+    try{
+        if(!req.file){
+            return res.status(400).status({message:'No file uploaded'})
+        }
+        const imgURL=req.file.path
+        req.user.avatar=req.file.path
+        await req.user.save()
+        res.status(200).send({url:imgURL})
+    }catch(error){
+        res.status(404).send(error)
+    }
+}
+
+export default { signup, login, read, update, deleteUser, uploadpfp, updatepfp}

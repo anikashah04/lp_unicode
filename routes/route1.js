@@ -2,6 +2,8 @@ import express from 'express'
 const router= new express.Router()
 import controller from '../controllers/controller1.js'
 import authMiddleware from '../middleware/authentication.js'
+import upload from '../utilities/multerConfig.js'
+import uploadMiddlware from '../middleware/upload.js'
 
 //Create-Sign up
 
@@ -21,5 +23,13 @@ router.patch('/user/me', authMiddleware,controller.update)
 //Delete
 
 router.delete('/user/me',authMiddleware, controller.deleteUser)
+
+//Upload pfp
+
+router.post('/user/me/avatar', authMiddleware, upload.single('avatar'), uploadMiddlware,controller.uploadpfp)
+
+//Update pfp
+
+router.patch('/user/me/avatar', authMiddleware, upload.single('avatar'), uploadMiddlware, controller.updatepfp)
 
 export default router
