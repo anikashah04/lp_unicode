@@ -27,11 +27,41 @@ const userSchema=new mongoose.Schema({
     tokens:[{
         token:{
             type:String,
-            required:true
+            required:true,
+            select:false
         }
     }],
+
+    resume_url:{
+        type:String,
+    },
+
+    tech_stack:[{
+        type:String
+    }],
+
+    field_of_interest:{
+        type:String,
+        required:true
+    },
+
+    experience_level:{
+        type:String,
+        required:true
+    },
+
+    bio:{
+        type:String
+    },
+
     avatar:{
         type:String
+    },
+
+    company:{
+        type:mongoose.Schema.Types.ObjectId,
+        required:false,
+        ref:'Company'
     }
 
 })
@@ -74,6 +104,16 @@ userSchema.statics.authenticate= async(email,password)=>{
     return user
 }
 
+userSchema.methods.toJSON= function (){
+    const user=this
+    const userObject= user.toObject() // mongoose method
+
+    delete userObject.password
+    delete userObject.tokens
+
+   // delete userObject.avatar
+    return userObject
+}
 
 
 const User=new mongoose.model('User', userSchema)

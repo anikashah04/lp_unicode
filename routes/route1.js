@@ -4,6 +4,7 @@ import controller from '../controllers/controller1.js'
 import authMiddleware from '../middleware/authentication.js'
 import upload from '../utilities/multerConfig.js'
 import uploadMiddlware from '../middleware/upload.js'
+import resumeMiddleware from '../middleware/resume.js'
 
 //Create-Sign up
 
@@ -30,6 +31,9 @@ router.post('/user/me/avatar', authMiddleware, upload.single('avatar'), uploadMi
 
 //Update pfp
 
-router.patch('/user/me/avatar', authMiddleware, upload.single('avatar'), uploadMiddlware, controller.updatepfp)
+router.post('/user/me/resume', authMiddleware, upload.single('resume_url'), resumeMiddleware, controller.resume)
+
+//create company profiles
+router.post('/user/createcompanyprof',authMiddleware, controller.createCompanyProfile)
 
 export default router

@@ -1,5 +1,5 @@
 
-import User from '../models/model1.js'
+import User from '../models/user_model.js'
 import nodemailer from 'nodemailer'
 
 
@@ -110,7 +110,8 @@ export const deleteUser= async(req,res)=>{
 //Profile picture
 
 import cloudinary from '../utilities/cloudinaryConfig.js'
-const uploadpfp= async(req,res)=>{
+import Company from '../models/company_model.js'
+export const uploadpfp= async(req,res)=>{
     try{
         if(!req.file){
             return res.status(400).status({message:'No file uploaded'})
@@ -125,18 +126,34 @@ const uploadpfp= async(req,res)=>{
     }
 }
 
-const updatepfp=async(req,res)=>{
+
+//upload resume
+
+export const resume=async(req,res)=>{
     try{
         if(!req.file){
             return res.status(400).status({message:'No file uploaded'})
         }
-        const imgURL=req.file.path
-        req.user.avatar=req.file.path
+        const resumeURL=req.file.path
+        req.user.resume_url=req.file.path
         await req.user.save()
-        res.status(200).send({url:imgURL})
+        res.status(200).send({url:resumeURL})
     }catch(error){
         res.status(404).send(error)
     }
 }
 
-export default { signup, login, read, update, deleteUser, uploadpfp, updatepfp}
+export const createCompanyProfile= async(req,res)=>{
+    const company=new Company({
+        ...req.body,
+        createdBy: req.user._id
+    })
+    try{
+        await company.save()
+        res.status(201).send(company)
+    }catch(error){
+        res.status(404).send(error)
+    }
+}
+
+export default { signup, login, read, update, deleteUser, uploadpfp, resume, createCompanyProfile}
