@@ -2,7 +2,6 @@
 import User from '../models/user_model.js'
 import nodemailer from 'nodemailer'
 
-
 //Create-Signup
 
 export const signup= async(req,res)=>{
@@ -143,17 +142,7 @@ export const resume=async(req,res)=>{
     }
 }
 
-export const createCompanyProfile= async(req,res)=>{
-    const company=new Company({
-        ...req.body,
-        createdBy: req.user._id
-    })
-    try{
-        await company.save()
-        res.status(201).send(company)
-    }catch(error){
-        res.status(404).send(error)
-    }
-}
 
-export default { signup, login, read, update, deleteUser, uploadpfp, resume, createCompanyProfile}
+
+
+export default { signup, login, read, update, deleteUser, uploadpfp, resume}

@@ -12,11 +12,10 @@ const companySchema=({
         type:String,
         required:true
     },
-    createdBy:{
+    recruiters:[{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'User',
-        required:true
-    }
+        ref:'Recruiter'
+    }]
 })
 
 const Company= new mongoose.model('Company',companySchema)
