@@ -1,4 +1,5 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose'
+import Recruiter from './recruiter_model.js'
 const companySchema=({
     name:{
         type:String,

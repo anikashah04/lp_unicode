@@ -50,5 +50,11 @@ router.get('/recruiter/me', recruiterAuthMiddleware, controller2.readR)
 //Delete
 router.delete('/recruiter/me',recruiterAuthMiddleware, controller2.deleteR)
 
+//Create job listings
+router.post('/recruiter/createjoblisting', recruiterAuthMiddleware, controller2.createJobListings)
+
+//Read (view)applicants
+router.get('/recruiter/viewapplicants', recruiterAuthMiddleware, controller2.viewApplicants)
+
 //create 
 export default router

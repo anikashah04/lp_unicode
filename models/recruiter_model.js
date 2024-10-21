@@ -60,9 +60,9 @@ const recruiterSchema=new mongoose.Schema({
 })
 
 recruiterSchema.methods.generateAuthToken2= async function() {
-    const recruiter=this;
+    const recruiter=this
     const token=jwt.sign({_id:recruiter._id.toString()}, process.env.JWT_SECRET) // creates a tpken
-    recruiter.tokens=recruiter.tokens.concat({token:token}) //adds the token to the array of tokens to the user 
+    recruiter.tokens=recruiter.tokens.concat({token:token}) //adds the token to the array of tokens to the recruiter 
     await recruiter.save()
     return token //so that it can be used in other parts of the code
 }
@@ -82,7 +82,7 @@ recruiterSchema.pre('save', async function(next){
 })
 
 
-//Athenticating User
+//Authenticating Recruiter
 //statics --> method is added to recruiter model directly 
 recruiterSchema.statics.authenticate= async(email,password)=>{
     const recruiter= await Recruiter.findOne({email:email})

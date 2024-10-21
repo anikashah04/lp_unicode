@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer'
 import Recruiter from '../models/recruiter_model.js'
 import Company from '../models/company_model.js'
+import Job from '../models/job_model.js'
 
 //Sign Up
 export const signupR= async(req,res)=>{
@@ -113,12 +114,13 @@ export const deleteR= async(req,res)=>{
 }
 
 export const companyR= async(req,res)=>{
-    const company=new Company(req.body,)
+    const company=new Company(req.body)
     try{
         await company.save()
         res.status(201).send(company)
     }catch(error){
         res.status(404).send(error)
+        console.log(error)
     }
 }
 
@@ -142,4 +144,49 @@ export const DeleteCompany= async(req,res)=>{
         console.log(error)
     }
 }
-export default { signupR, loginR, readR, deleteR, companyR , ReadCompanies, DeleteCompany}
+
+//Create job listings
+export const createJobListings=async(req,res)=>{
+    try{
+        const recruiterCompanyId=req.recruiter.company_id.toString()
+        const jobCompnayId=req.body.company_id
+        if(recruiterCompanyId !== jobCompnayId){
+            return res.status(404).send({error: 'You can create jobs for the company you belong to'})
+        }
+        const job=new Job({
+            ...req.body,
+            recruiter_id: req.recruiter._id
+        })
+        await job.save()
+        res.send(job).status(200)
+    }
+    catch(error)
+    {
+        res.send(error).status(500)
+        console.log(error)
+    }
+}
+
+//view Applicants
+export const viewApplicants=async(req,res)=>{
+
+    try{
+        const jobId=req.params.job_id
+        const job=await Job.findById(jobId).populate({
+        path:'user_id', select:'name resume'
+        }).exec() //executes the query
+        if(!job){
+            return res.status(404).send({error:'Job not found'})
+        }
+        res.status(200).send(job.applications)
+    
+    }
+    catch(error)
+    {
+
+    }
+
+
+}
+
+export default { signupR, loginR, readR, deleteR, companyR , ReadCompanies, DeleteCompany, createJobListings, viewApplicants}

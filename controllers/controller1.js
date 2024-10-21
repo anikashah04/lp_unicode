@@ -44,6 +44,7 @@ export const login=async(req,res)=>{
     try{
         const user= await User.authenticate(req.body.email, req.body.password)
         const token=await user.generateAuthToken()
+        console.log(token)
         let mailTransporter= nodemailer.createTransport({
             service:"gmail",
             auth:{
@@ -98,6 +99,20 @@ export const update= async(req,res)=>{
 
 export const deleteUser= async(req,res)=>{
     try{
+        if(req.user.avatarPublicId){
+
+            await cloudinary.uploader.destroy(req.user.avatarPublicId, function(result){
+                console.log(result)
+            })
+            req.user.avatar=null
+        }
+        if(req.user.publicId){
+            await cloudinary.uploader.destroy(req.user.publicId, function(result){
+                console.log(result)
+            })
+            req.user.resume_url=null
+        }
+        await req.user.save()
         await User.findByIdAndDelete(req.user._id)
         res.status(200).send(req.user)
     }catch(error){
@@ -115,8 +130,13 @@ export const uploadpfp= async(req,res)=>{
         if(!req.file){
             return res.status(400).status({message:'No file uploaded'})
         }
+
         const imgURL=req.file.path
-        req.user.avatar=req.file.path
+        const publicId=req.file.filename
+
+        req.user.avatar=imgURL
+        req.user.avatarPublicId=publicId
+
         await req.user.save()
         res.status(200).send({url:imgURL})
     }catch(error){
@@ -134,7 +154,10 @@ export const resume=async(req,res)=>{
             return res.status(400).status({message:'No file uploaded'})
         }
         const resumeURL=req.file.path
-        req.user.resume_url=req.file.path
+        const publicId=req.file.filename
+
+        req.user.avatar=resumeURL
+        req.user.resumePublicId=publicId
         await req.user.save()
         res.status(200).send({url:resumeURL})
     }catch(error){

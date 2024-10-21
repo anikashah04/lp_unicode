@@ -68,7 +68,7 @@ const userSchema=new mongoose.Schema({
 
 //Creating tokens for current user
 userSchema.methods.generateAuthToken= async function() {
-    const user=this;
+    const user=this
     const token=jwt.sign({_id:user._id.toString()}, process.env.JWT_SECRET) // creates a tpken
     user.tokens=user.tokens.concat({token:token}) //adds the token to the array of tokens to the user 
     await user.save()
