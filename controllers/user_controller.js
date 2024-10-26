@@ -1,6 +1,7 @@
 
 import User from '../models/user_model.js'
 import nodemailer from 'nodemailer'
+import Application from '../models/application_model.js'
 
 //Create-Signup
 
@@ -99,15 +100,18 @@ export const update= async(req,res)=>{
 
 export const deleteUser= async(req,res)=>{
     try{
+        
+        console.log("Public ID for avatar:", req.user.avatarPublicId);
         if(req.user.avatarPublicId){
 
+            console.log("Avatar deletion result:")
             await cloudinary.uploader.destroy(req.user.avatarPublicId, function(result){
                 console.log(result)
             })
             req.user.avatar=null
         }
-        if(req.user.publicId){
-            await cloudinary.uploader.destroy(req.user.publicId, function(result){
+        if(req.user.resumePublicId){
+            await cloudinary.uploader.destroy(req.user.resumePublicId, function(result){
                 console.log(result)
             })
             req.user.resume_url=null
@@ -130,10 +134,9 @@ export const uploadpfp= async(req,res)=>{
         if(!req.file){
             return res.status(400).status({message:'No file uploaded'})
         }
-
         const imgURL=req.file.path
         const publicId=req.file.filename
-
+        console.log(publicId)
         req.user.avatar=imgURL
         req.user.avatarPublicId=publicId
 
@@ -155,8 +158,8 @@ export const resume=async(req,res)=>{
         }
         const resumeURL=req.file.path
         const publicId=req.file.filename
-
-        req.user.avatar=resumeURL
+        console.log(publicId)
+        req.user.resume_url=resumeURL
         req.user.resumePublicId=publicId
         await req.user.save()
         res.status(200).send({url:resumeURL})
@@ -165,7 +168,20 @@ export const resume=async(req,res)=>{
     }
 }
 
+export const apply=async(req,res)=>{
+    try{
+       const application=new Application({
+        user_id:req.user.user_id,
+        ...req.body
+       }) 
+       await application.save()
+       res.status(201).send(application)
+    }catch(error){
+        res.status(500).send(error)
+        console.log(error)
+    }
+}
 
 
 
-export default { signup, login, read, update, deleteUser, uploadpfp, resume}
+export default { signup, login, read, update, deleteUser, uploadpfp, resume, apply}

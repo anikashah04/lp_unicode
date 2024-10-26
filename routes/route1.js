@@ -1,60 +1,68 @@
 import express from 'express'
 const router= new express.Router()
-import controller from '../controllers/controller1.js'
+import User_controller from '../controllers/user_controller.js'
 import authMiddleware from '../middleware/authentication.js'
 import upload from '../utilities/multerConfig.js'
 import uploadMiddlware from '../middleware/upload.js'
 import resumeMiddleware from '../middleware/resume.js'
-import controller2 from '../controllers/controller2.js'
+import Recruiter_controller from '../controllers/recruiter_controller.js'
 import recruiterAuthMiddleware from '../middleware/recruiter_auth.js'
+import Company_controller from'../controllers/company_controller.js'
+import user_controller from '../controllers/user_controller.js'
 
 //Create-Sign up
-router.post('/user/signup',controller.signup)
+router.post('/user/signup', User_controller.signup)
 
 //Login
-router.post('/user/login', controller.login)
+router.post('/user/login', User_controller.login)
 
 //Read
-router.get('/user/me', authMiddleware,controller.read)
+router.get('/user/me', authMiddleware,User_controller.read)
 
 //Update
-router.patch('/user/me', authMiddleware,controller.update)
+router.patch('/user/me', authMiddleware,User_controller.update)
 
 //Delete
-router.delete('/user/me',authMiddleware, controller.deleteUser)
+router.delete('/user/me',authMiddleware, User_controller.deleteUser)
 
 //Upload pfp
-router.post('/user/me/avatar', authMiddleware, upload.single('avatar'), uploadMiddlware,controller.uploadpfp)
+router.post('/user/me/avatar', authMiddleware, upload.single('avatar'), uploadMiddlware, User_controller.uploadpfp)
 
 //Update pfp
-router.post('/user/me/resume', authMiddleware, upload.single('resume_url'), resumeMiddleware, controller.resume)
+router.post('/user/me/resume', authMiddleware, upload.single('resume_url'), resumeMiddleware, User_controller.resume)
 
 //Sign up for Recruiter
-router.post('/recruiter/signup', controller2.signupR)
+router.post('/recruiter/signup', Recruiter_controller.signupR)
 
 //Login in for Recruiter
-router.post('/recruiter/login', controller2.loginR)
-
-//create company profiles
-router.post('/companyprof', controller2.companyR)
-
-//read company
-router.get('/companies/read', controller2.ReadCompanies)
-
-//Delete company
-router.delete('/company/delete/:id', controller2.DeleteCompany)
+router.post('/recruiter/login', Recruiter_controller.loginR)
 
 //Read Recruiter
-router.get('/recruiter/me', recruiterAuthMiddleware, controller2.readR)
+router.get('/recruiter/me', recruiterAuthMiddleware, Recruiter_controller.readR)
 
 //Delete
-router.delete('/recruiter/me',recruiterAuthMiddleware, controller2.deleteR)
+router.delete('/recruiter/me',recruiterAuthMiddleware, Recruiter_controller.deleteR)
 
 //Create job listings
-router.post('/recruiter/createjoblisting', recruiterAuthMiddleware, controller2.createJobListings)
+router.post('/recruiter/createjoblisting', recruiterAuthMiddleware, Recruiter_controller.createJobListings)
+
+//Read job listings
+router.get('/recruiter/readjoblisting', recruiterAuthMiddleware, Recruiter_controller.readJobListings)
 
 //Read (view)applicants
-router.get('/recruiter/viewapplicants', recruiterAuthMiddleware, controller2.viewApplicants)
+router.get('/recruiter/viewapplicants', recruiterAuthMiddleware, Recruiter_controller.viewApplicants)
+
+//create company profiles
+router.post('/companyprof',Company_controller.CreateCompany)
+
+//read company
+router.get('/companies/read', Company_controller.ReadCompanies)
+
+//Delete company
+router.delete('/company/delete/:id', Company_controller.DeleteCompany)
+
+//user applies 
+router.post('/user/me/apply', authMiddleware, user_controller.apply)
 
 //create 
 export default router

@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer'
 import Recruiter from '../models/recruiter_model.js'
 import Company from '../models/company_model.js'
 import Job from '../models/job_model.js'
+import Application from '../models/application_model.js'
 
 //Sign Up
 export const signupR= async(req,res)=>{
@@ -113,37 +114,6 @@ export const deleteR= async(req,res)=>{
     }
 }
 
-export const companyR= async(req,res)=>{
-    const company=new Company(req.body)
-    try{
-        await company.save()
-        res.status(201).send(company)
-    }catch(error){
-        res.status(404).send(error)
-        console.log(error)
-    }
-}
-
-//Read company
-export const ReadCompanies=async(req,res)=>{
-    try{
-        const companies= await Company.find()
-        res.send(companies)
-    }catch(error){
-        res.send(error)
-    }
-}
-//Delete Company
-export const DeleteCompany= async(req,res)=>{
-    try{
-        const company=await Company.findByIdAndDelete(req.params.id)
-        res.send(company).status(200)
-    }catch(error)
-    {
-        res.send(error).status(500)
-        console.log(error)
-    }
-}
 
 //Create job listings
 export const createJobListings=async(req,res)=>{
@@ -166,27 +136,41 @@ export const createJobListings=async(req,res)=>{
         console.log(error)
     }
 }
-
+//Read all job listings
+export const readJobListings=async(req,res)=>{
+    try{
+        const jobs=await Job.find()
+        // .populate('company_id','name')
+        res.status(200).send(jobs)
+    }
+    catch(error){
+        res.status(500).send(error)
+        console.log(error)
+    }
+}
 //view Applicants
 export const viewApplicants=async(req,res)=>{
 
     try{
         const jobId=req.params.job_id
-        const job=await Job.findById(jobId).populate({
-        path:'user_id', select:'name resume'
-        }).exec() //executes the query
-        if(!job){
-            return res.status(404).send({error:'Job not found'})
+        // const applications=await Application.find().populate('user_id') 
+        const applications = await Application.find().populate({
+            path: 'user_id',
+            select: 'name resume_url email tech_stack field_of_interest experience_level'
+        })
+        if(!applications.length === 0){
+            return res.status(404).send({error:'Applications not found'})
         }
-        res.status(200).send(job.applications)
+        res.status(200).send(applications)
     
     }
     catch(error)
     {
-
+        res.send(error).status(500)
+        console.log(error)
     }
 
 
 }
 
-export default { signupR, loginR, readR, deleteR, companyR , ReadCompanies, DeleteCompany, createJobListings, viewApplicants}
+export default { signupR, loginR, readR, deleteR, createJobListings, readJobListings, viewApplicants}

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
-import User from './user_model'
-import Job from './job_model'
+import User from './user_model.js'
+import Job from './job_model.js'
 
 const applicationSchema=({
     user_id:{

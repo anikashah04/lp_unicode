@@ -35,7 +35,9 @@ const userSchema=new mongoose.Schema({
     resume_url:{
         type:String,
     },
-
+    resumePublicId:{
+        type:String
+    },
     tech_stack:[{
         type:String
     }],
@@ -57,7 +59,9 @@ const userSchema=new mongoose.Schema({
     avatar:{
         type:String
     },
-
+    avatarPublicId:{
+        type:String
+    },
     company:{
         type:mongoose.Schema.Types.ObjectId,
         required:false,
