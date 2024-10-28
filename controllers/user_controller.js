@@ -168,20 +168,5 @@ export const resume=async(req,res)=>{
     }
 }
 
-export const apply=async(req,res)=>{
-    try{
-       const application=new Application({
-        user_id:req.user.user_id,
-        ...req.body
-       }) 
-       await application.save()
-       res.status(201).send(application)
-    }catch(error){
-        res.status(500).send(error)
-        console.log(error)
-    }
-}
 
-
-
-export default { signup, login, read, update, deleteUser, uploadpfp, resume, apply}
+export default { signup, login, read, update, deleteUser, uploadpfp, resume}
