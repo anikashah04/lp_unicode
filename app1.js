@@ -23,7 +23,7 @@ app.use(route1)
 app.use(cors())
 
 // app.use(cors({
-//     origin: 'https://anikashah21.com'  // Allow only this domain
+//     origin: 'https://lp-unicode-g5q8.onrender.com'  // Allow only this domain
 //   }));
 
 
@@ -36,6 +36,12 @@ app.listen(port, () => {
       console.log('Server running on ' + port);
     }
   });
+
+const sendResponse=async(req,res)=>{
+  res.send('Hello')
+}
+app.get('/', sendResponse)
+
 
 export default app
   
