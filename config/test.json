@@ -1,0 +1,6 @@
+{
+  "dbConfig": {
+    "url": "mongodb+srv://anika210421:Jaimaatadi4@cluster0.5lx3d.mongodb.net/test_db?retryWrites=true&w=majority&appName=Cluster0"
+  },
+  "JWT_SECRET": "your_test_jwt_secret"
+}

@@ -56,6 +56,10 @@ const recruiterSchema=new mongoose.Schema({
             required:true,
             select:false
         }
+    }],
+    applications:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Application'
     }]
 })
 

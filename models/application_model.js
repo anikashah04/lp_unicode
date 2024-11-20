@@ -13,9 +13,14 @@ const applicationSchema=({
         ref:'Job',
         required:true
     },
+    recruiter_id:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Recruiter'
+    },
     status:{
         type:String,
-        required:true,
+        enum:['Pending', 'Accepted', 'Declined'],
+        default:'Pending',
     },
     applied_date:{
         type:Date,

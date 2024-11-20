@@ -11,7 +11,7 @@ const blogSchema=({
     },
     authorModel:{
         type:String,
-        requierd:true,
+        required:true,
         enum:['User','Company']
     },
     title:{
@@ -30,7 +30,17 @@ const blogSchema=({
     created_at:{
         type:Date,
         default:Date.now
-    }
+    },
+    likes:[{
+        liked_id:{
+            type:mongoose.Schema.Types.ObjectId,
+            refPath:'liked_by'
+        },
+        liked_by:{
+            type:String,
+            enum:['User', 'Recruiter']
+        }
+    }]
 })
 
 const Blog=new mongoose.model('Blog', blogSchema)

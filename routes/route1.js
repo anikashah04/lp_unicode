@@ -14,6 +14,7 @@ import application_controller from '../controllers/application_controller.js'
 import follower_following_controller from '../controllers/follower_following_controller.js'
 import blog_controller from '../controllers/blog_controller.js'
 
+//USER
 //Create-Sign up
 router.post('/user/signup', user_controller.signup)
 
@@ -35,6 +36,8 @@ router.post('/user/me/avatar', authMiddleware, upload.single('avatar'), uploadMi
 //Update pfp
 router.post('/user/me/resume', authMiddleware, upload.single('resume_url'), resumeMiddleware, user_controller.resume)
 
+
+//RECRUITER
 //Sign up for Recruiter
 router.post('/recruiter/signup', recruiter_controller.signupR)
 
@@ -47,6 +50,13 @@ router.get('/recruiter/me', recruiterAuthMiddleware, recruiter_controller.readR)
 //Delete
 router.delete('/recruiter/me',recruiterAuthMiddleware, recruiter_controller.deleteR)
 
+//Accept 
+router.patch('/recruiter/accept/:id', recruiterAuthMiddleware,recruiter_controller.accept)
+
+//Reject
+router.patch('/recruiter/decline/:id', recruiterAuthMiddleware,recruiter_controller.decline)
+
+//JOB
 //Create job listings
 router.post('/recruiter/createjoblisting', recruiterAuthMiddleware, job_Controller.createJobListings)
 
@@ -56,11 +66,12 @@ router.get('/recruiter/readjoblisting', recruiterAuthMiddleware, job_Controller.
 //Read (view)applicants
 router.get('/recruiter/viewapplicants', recruiterAuthMiddleware, application_controller.viewApplicants)
 
+//COMPANY
 //create company profiles
-router.post('/companyprof',company_controller.CreateCompany)
+router.post('/company/companyprof',company_controller.CreateCompany)
 
 //read company
-router.get('/companies/read', company_controller.ReadCompanies)
+router.get('/company/read', company_controller.ReadCompanies)
 
 //Delete company
 router.delete('/company/delete/:id', company_controller.DeleteCompany)
@@ -68,6 +79,7 @@ router.delete('/company/delete/:id', company_controller.DeleteCompany)
 //user applies 
 router.post('/user/me/apply', authMiddleware, application_controller.apply)
 
+//FOLLOW/UNFOLLOW
 //follow 
 router.post('/user/me/follow', authMiddleware, follower_following_controller.follow)
 
@@ -77,6 +89,7 @@ router.post('/user/me/unfollow', authMiddleware, follower_following_controller.u
 //view follow/unfollow
 router.get('/user/me/view/:_id', authMiddleware, follower_following_controller.view_followers_following)
 
+//BLOGS
 //create blogs
 router.post('/blog/createblog', blog_controller.createBlog)
 
@@ -88,6 +101,9 @@ router.patch('/blog/updateblog/:_id', blog_controller.updateBlog)
 
 //delete blog
 router.delete('/blog/deleteblog/:_id', blog_controller.deleteBlog)
+
+//like blog
+router.patch('/blog/like', blog_controller.LikeBlog)
 
 //create 
 export default router

@@ -114,5 +114,50 @@ export const deleteR= async(req,res)=>{
     }
 }
 
+//Accept Application
+export const accept=async(req,res)=>{
+    try{
+        const applicationId=req.params.id
+        const application= await Application.findByIdAndUpdate(
+            
+            applicationId,
+            {status:'Accepted'},
+            {new: true}
+        )
+        if(!applicationId)
+            {
+                return res.status(404).send({error:'Invalid ID'})
+            }
+        res.status(200).send({
+            message:'Congratulations! Your application has been accepted successfully.',
+            application
+        })
+    }catch(error){
+        res.status(500).send(error)
+    }
+}
 
-export default { signupR, loginR, readR, deleteR}
+//Reject Application
+export const decline=async(req,res)=>{
+    try{
+        const applicationId=req.params.id
+        const application= await Application.findByIdAndUpdate(
+            
+            applicationId,
+            {status:'Declined'},
+            {new: true}
+        )
+        if(!applicationId)
+            {
+                return res.status(404).send({error:'Invalid ID'})
+            }
+        res.status(200).send({
+            message:'Sorry! Your application has been declined.',
+            application
+        })
+    }catch(error){
+        res.status(500).send(error)
+    }
+}
+
+export default { signupR, loginR, readR, deleteR, accept, decline}

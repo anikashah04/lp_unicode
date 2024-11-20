@@ -1,2 +1,6 @@
 node_modules
 .env
+coverage
+.env.test
+jest.config.cjs
+babel.config.cjs

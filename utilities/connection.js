@@ -7,6 +7,7 @@ import mongoose from 'mongoose'
 
 import {MongoClient} from 'mongodb'
 
+console.log(process.env.MONGODB_URI)
 const connection=mongoose.connect(process.env.MONGODB_URI,{
     useNewUrlParser:true,
     useUnifiedTopology: true
