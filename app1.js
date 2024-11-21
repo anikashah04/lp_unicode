@@ -8,6 +8,7 @@ import route1 from './routes/route1.js'
 import morgan from 'morgan'
 
 import cors from 'cors'
+import user_controller from './controllers/user_controller.js'
 
 
 const port= process.env.PORT || 3000
@@ -30,9 +31,9 @@ app.patch('/user/me', authMiddleware, user_controller.update); // Update user de
 app.delete('/user/me', authMiddleware, user_controller.deleteUser); // Delete user
 
 
-// app.use(cors({
-//     origin: 'https://lp-unicode-g5q8.onrender.com'  // Allow only this domain
-//   }));
+app.use(cors({
+    origin: 'https://lp-unicode-g5q8.onrender.com'  // Allow only this domain
+  }));
 
 
 //connection to database
