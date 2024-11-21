@@ -19,8 +19,9 @@ if(process.env.NODE_ENV == 'development'){
 }
 
 app.use(express.json())
-app.use(route1)
+app.use('/api' ,route1)
 app.use(cors())
+app.get(route1)
 
 // app.use(cors({
 //     origin: 'https://lp-unicode-g5q8.onrender.com'  // Allow only this domain
@@ -40,7 +41,7 @@ app.listen(port, () => {
 const sendResponse=async(req,res)=>{
   res.send('Hello')
 }
-app.get('/', sendResponse)
+// app.get('/', sendResponse)
 
 
 export default app
