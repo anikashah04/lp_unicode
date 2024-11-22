@@ -8,8 +8,6 @@ import route1 from './routes/route1.js'
 import morgan from 'morgan'
 
 import cors from 'cors'
-import user_controller from './controllers/user_controller.js'
-
 
 const port= process.env.PORT || 3000
 const app=express()
@@ -20,9 +18,11 @@ if(process.env.NODE_ENV == 'development'){
 }
 
 app.use(express.json())
-app.use('/api' ,route1)
+
+app.use('/api', route1)
+
 app.use(cors())
-app.get(route1)
+
 
 
 app.use(cors({
@@ -39,11 +39,6 @@ app.listen(port, () => {
       console.log('Server running on ' + port);
     }
   });
-
-// const sendResponse=async(req,res)=>{
-//   res.send('Hello')
-// }
-// app.get('/', sendResponse)
 
 
 export default app
