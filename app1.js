@@ -24,12 +24,6 @@ app.use('/api' ,route1)
 app.use(cors())
 app.get(route1)
 
-app.post('/user/signup', user_controller.signup); // Create user
-app.post('/user/login', user_controller.login); // Login user
-app.get('/user/me', authMiddleware, user_controller.read); // Get user details
-app.patch('/user/me', authMiddleware, user_controller.update); // Update user details
-app.delete('/user/me', authMiddleware, user_controller.deleteUser); // Delete user
-
 
 app.use(cors({
     origin: 'https://lp-unicode-g5q8.onrender.com'  // Allow only this domain
@@ -46,9 +40,9 @@ app.listen(port, () => {
     }
   });
 
-const sendResponse=async(req,res)=>{
-  res.send('Hello')
-}
+// const sendResponse=async(req,res)=>{
+//   res.send('Hello')
+// }
 // app.get('/', sendResponse)
 
 
