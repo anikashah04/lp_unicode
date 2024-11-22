@@ -18,9 +18,12 @@ export const CreateCompany= async(req,res)=>{
 export const ReadCompanies=async(req,res)=>{
     try{
         const companies= await Company.find()
-        res.send(companies)
+        console.log('Companies fetched:', companies)
+        if (companies.length === 0) 
+            { return res.status(404).send({ message: 'No companies found' }); }
+        res.status(200).send(companies)
     }catch(error){
-        res.send(error)
+        res.status(500).send(error)
     }
 }
 //Delete Company
