@@ -23,6 +23,11 @@ app.use('/api', route1)
 
 app.use(cors())
 
+const sendResponse=async(req,res)=>{
+  res.status(200).send('Hello')
+}
+app.get('/api', sendResponse)
+
 
 
 app.use(cors({
