@@ -20,14 +20,14 @@ if(process.env.NODE_ENV == 'development'){
 
 app.use(express.json())
 
-app.use('/api', company_controller.ReadCompanies)
+app.get('/api', company_controller.ReadCompanies)
 
 app.use(cors())
 
 const sendResponse=async(req,res)=>{
   res.status(200).send('Hello')
 }
-app.get('/api', )
+
 
 
 
