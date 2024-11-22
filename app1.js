@@ -6,6 +6,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import route1 from './routes/route1.js'
 import morgan from 'morgan'
+import company_controller from './controllers/company_controller.js'
 
 import cors from 'cors'
 
@@ -19,14 +20,14 @@ if(process.env.NODE_ENV == 'development'){
 
 app.use(express.json())
 
-app.use('/api', route1)
+app.use('/api', company_controller.ReadCompanies)
 
 app.use(cors())
 
 const sendResponse=async(req,res)=>{
   res.status(200).send('Hello')
 }
-app.get('/api', sendResponse)
+app.get('/api', )
 
 
 
