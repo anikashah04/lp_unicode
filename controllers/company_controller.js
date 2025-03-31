@@ -17,7 +17,7 @@ export const CreateCompany= async(req,res)=>{
 //Read company
 export const ReadCompanies=async(req,res)=>{
     try{
-        const companies= await Company.find()
+        const companies= await Company.find().populate('recruiters')
         console.log('Companies fetched:', companies)
         if (companies.length === 0) 
             { return res.status(404).send({ message: 'No companies found' }); }

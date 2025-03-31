@@ -79,7 +79,7 @@ export const login=async(req,res)=>{
 
 export const read= async(req,res)=>{
     try{
-        res.send(req.user)
+        res.send(req.user).populate('company')
     }catch(error){
         res.send(error)
     }

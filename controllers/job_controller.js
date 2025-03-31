@@ -26,7 +26,7 @@ export const createJobListings=async(req,res)=>{
 //Read all job listings
 export const readJobListings=async(req,res)=>{
     try{
-        const jobs=await Job.find()
+        const jobs=await Job.find().populate('recruiter_id').populate('company_id')
         // .populate('company_id','name')
         res.status(200).send(jobs)
     }

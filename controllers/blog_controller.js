@@ -16,7 +16,7 @@ export const createBlog=async(req,res)=>{
 
 export const readBlogs=async(req,res)=>{
     try{
-        const blogs= await Blog.find()
+        const blogs= await Blog.find().populate('author_id').populate('likes.liked_id')
         res.status(200).send(blogs)
     }catch(error){
         res.status(500).send(error)
