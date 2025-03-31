@@ -18,9 +18,7 @@ if(process.env.NODE_ENV == 'development'){
 
 app.use(express.json())
 
-app.use(cors({
-    origin: 'https://lp-unicode-g5q8.onrender.com'  // Allow only this domain
-  }));
+app.use(cors());
 
 //connection to database
 import './utilities/connection.js'
@@ -37,6 +35,10 @@ app.use('/company',companyRoutes)
 app.use('/recruiter',jobRoutes)
 app.use('/blog',blogRoutes)
 
+app.use((req, res, next) => {
+  console.log(`Incoming request: ${req.method} ${req.url}`);
+  next();
+});
 
 app.listen(port, () => {
     if (process.env.NODE_ENV !== 'test') {
